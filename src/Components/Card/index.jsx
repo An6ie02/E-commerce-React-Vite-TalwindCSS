@@ -6,8 +6,17 @@ function Card({ props }) {
   const context = useContext(ShoppingCartContext)
 
   const showProduct = (productDetail) => {
+    context.closeCheckoutMenu()
     context.openProductDetail()
     context.setProductToShow(productDetail)
+  }
+
+  const addProductsToCart = (event, productData) => {
+    event.stopPropagation()
+    context.setCount(context.count + 1)
+    context.setCartProducts([...context.cartProducts, productData])
+    context.openCheckoutMenu()
+    context.closeProductDetail()
   }
 
   return (
@@ -17,8 +26,8 @@ function Card({ props }) {
         <span className='absolute bottom-0 left-0 bg-white/60 rounded-lg text-black text-xs m-2 px-3 py-0.5'>{props.category.name}</span>
         <img className='w-full h-full object-cover rounded-lg' src={props.image} alt={props.title} />
         <button className='absolute top-0 right-0 flex justify-center items-center bg-white w-6 h-6 rounded-full m-2 p-1'
-          onClick={() => context.setCount(context.count + 1)}>
-          <PlusIcon className='h-6 w-6 text-black' /> </button>
+          onClick={(event) => addProductsToCart(event, props)}>
+          <PlusIcon className='h-6 w-6 text-black'/> </button>
       </figure>
       <p className='flex justify-between bg-gray-200 p-2 rounded-lg'>
         <span className='text-sm font-light'>{props.title.substring(0,28)}...</span>
