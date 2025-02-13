@@ -9,5 +9,5 @@ export const totalPrice = (products) => {
   products.forEach(product => {
     sum += product.price
   });
-  return sum
+  return sum.toFixed(2)
 }
