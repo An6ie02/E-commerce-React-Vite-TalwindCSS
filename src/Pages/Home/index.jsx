@@ -9,18 +9,13 @@ function Home() {
   const context = useContext(ShoppingCartContext)
 
   const RenderView = () => {
-    if (context.searchByTitle?.length > 0) {
-      if (context.filteredItems?.length > 0) {
-        return context.filteredItems?.map(item => (
-          <Card key={item.id} props={item} />
-        ))
-      } else {
-        return <p className="text-center">No products found</p>
-      }
-    } else {
-      return context.items?.map(item => (
+
+    if (context.filteredItems?.length > 0) {
+      return context.filteredItems?.map(item => (
         <Card key={item.id} props={item} />
       ))
+    } else {
+      return <p className="text-center">No products found</p>
     }
   }
 
@@ -30,10 +25,10 @@ function Home() {
         <h1 className="font-medium text-xl">Products</h1>
       </div>
       <input
-        type="text" 
-        placeholder="Search a product" 
+        type="text"
+        placeholder="Search a product"
         className="rounded-lg border border-black w-80 p-4 mb-4 focus:outline-none"
-        onChangeCapture={(event) => context.setSearchByTitle(event.target.value)}/>
+        onChangeCapture={(event) => context.setSearchByTitle(event.target.value)} />
       <div className="grid gap-6 grid-cols-4 w-full max-w-screen-lg">
         {
           RenderView()

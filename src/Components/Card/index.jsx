@@ -41,11 +41,11 @@ function Card({ props }) {
       onClick={() => showProduct(props)}>
       <figure className='relative mb-1 w-full h-4/5'>
         <span className='absolute bottom-0 left-0 bg-white/60 rounded-lg text-black text-xs m-2 px-3 py-0.5'>{props.category.name}</span>
-        <img className='w-full h-full object-cover rounded-lg' src={props.image} alt={props.title} />
+        <img className='w-full h-full object-cover rounded-lg' src={props.images[0]} alt={props.title} />
         {renderIcon(props.id)}
       </figure>
       <p className='flex justify-between bg-gray-200 p-2 rounded-lg'>
-        <span className='text-sm font-light'>{props.title.substring(0, 28)}...</span>
+        <span className='text-sm font-light'>{props.title}</span>
         <span className='text-lg font-medium'>${props.price}</span>
       </p>
     </article>

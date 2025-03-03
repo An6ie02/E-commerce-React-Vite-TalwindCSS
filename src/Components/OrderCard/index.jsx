@@ -9,7 +9,7 @@ function OrderCard({ props, handleDelete }) {
     <div className="flex justify-between items-center mb-3">
       <div className="flex items-center gap-2">
         <figure className='w-20 h-20'>
-          <img className='w-full h-full object-cover rounded-lg' src={props.image} alt={props.title} />
+          <img className='w-full h-full object-cover rounded-lg' src={props.images} alt={props.title} />
         </figure>
         <p className="font-light text-sm">{props.title.substring(0,18)}...</p>
       </div>

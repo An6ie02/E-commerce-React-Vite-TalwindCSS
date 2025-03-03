@@ -49,10 +49,33 @@ export const ShoppingCartProvider = ({ children }) => {
     return items?.filter(item => item.title.toLowerCase().includes(searchByTitle.toLowerCase()))
   }
 
+  //Filter by Category
+  const [filteredByCategory, setFilteredByCategory] = useState(null)
+  const filteredItemsByCategory = (items, searchCategory) => {
+    return items?.filter(item => item.category.name.toLowerCase().includes(searchCategory.toLowerCase()))
+  }
 
+  const filterBy = (searchType, items, searchByTitle, filteredByCategory) => {
+    if (searchType === 'BY_TITLE') {
+      return filteredItemsByTitle(items, searchByTitle)
+    }
+    if (searchType === 'BY_CATEGORY') {
+      return filteredItemsByCategory(items, filteredByCategory)
+    }
+    if (searchType === 'BY_TITLE_AND_CATEGORY') {
+      return filteredItemsByCategory(filteredItemsByTitle(items, searchByTitle), filteredByCategory)
+    }
+    if (searchType === 'ALL') {
+      return items
+    }
+  }
+  
   useEffect(() => {
-    if (searchByTitle) setFilteredItems(filteredItemsByTitle(items, searchByTitle))
-  }, [items, searchByTitle])
+    if (searchByTitle && !filteredByCategory) setFilteredItems(filterBy('BY_TITLE', items, searchByTitle, filteredByCategory))
+    if (!searchByTitle && filteredByCategory) setFilteredItems(filterBy('BY_CATEGORY', items, searchByTitle, filteredByCategory))
+    if (searchByTitle && filteredByCategory) setFilteredItems(filterBy('BY_TITLE_AND_CATEGORY', items, searchByTitle, filteredByCategory))
+    if (!searchByTitle && !filteredByCategory) setFilteredItems(filterBy('ALL', items, searchByTitle, filteredByCategory))
+  }, [items, searchByTitle, filteredByCategory])
 
   return (
     <ShoppingCartContext.Provider value={{
@@ -75,7 +98,9 @@ export const ShoppingCartProvider = ({ children }) => {
       searchByTitle,
       setSearchByTitle,
       filteredItems,
-      setFilteredItems
+      setFilteredItems,
+      filteredByCategory,
+      setFilteredByCategory
     }}>
       {children}
     </ShoppingCartContext.Provider>
